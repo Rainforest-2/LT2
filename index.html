@@ -1,16 +1,20 @@
-<!doctype html><html lang="ja"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"/><title>Sky Vector Assault</title><style>
+<!doctype html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"><title>Aegis Skydrive</title><style>
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#02040c;overscroll-behavior:none}*{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;box-sizing:border-box}
 #game{display:block;width:100vw;height:100vh;touch-action:none}
-#hud{position:fixed;inset:0;pointer-events:none;color:#d9f4ff;font-family:-apple-system,sans-serif;padding:calc(env(safe-area-inset-top) + 8px) 10px calc(env(safe-area-inset-bottom)+8px)}
-.row{display:flex;gap:8px;align-items:center;justify-content:space-between}.panel{background:linear-gradient(180deg,rgba(9,27,59,.55),rgba(3,11,26,.45));border:1px solid #53d5ff;box-shadow:0 0 12px #35c9ff44 inset;border-radius:10px;padding:7px 9px;font-size:12px}
-#bars{margin-top:8px;display:grid;grid-template-columns:24px 1fr 24px 1fr 46px 1fr;gap:6px;align-items:center}.bar{height:9px;border:1px solid #8df;background:#012;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%}
-#hp i{background:linear-gradient(90deg,#65ff88,#f7ff68)}#sh i{background:linear-gradient(90deg,#44c5ff,#6677ff)}#sk i{background:linear-gradient(90deg,#ff6ef8,#ffa36e)}#boss i{background:linear-gradient(90deg,#ff6767,#ff31d7)}
-#controls{position:fixed;right:10px;bottom:calc(env(safe-area-inset-bottom) + 10px);display:flex;gap:8px;pointer-events:auto}.btn{width:78px;height:78px;border-radius:18px;border:1px solid #8ef;background:linear-gradient(180deg,#13405f,#0a2135);color:#fff;font-weight:800}
-#msg{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);color:#fff;text-align:center;text-shadow:0 2px 12px #000;pointer-events:none}
-</style></head><body>
-<canvas id="game"></canvas>
-<div id="hud"><div class="row"><div class="panel">SCORE <span id="score">0</span></div><div class="panel">STAGE <span id="stage">1</span></div><div class="panel">SHIP <span id="ship">CRIMSON</span></div><div class="panel">WPN <span id="wpn">VULCAN</span></div><div class="panel">LIFE <span id="life">3</span></div><div class="panel">BOMB <span id="bomb">3</span></div></div>
-<div id="bars"><span>HP</span><div id="hp" class="bar"><i></i></div><span>SH</span><div id="sh" class="bar"><i></i></div><span>SK</span><div id="sk" class="bar"><i></i></div><span id="bossTxt" style="display:none">BOSS</span><div id="boss" class="bar" style="display:none"><i></i></div></div></div>
-<div id="controls"><button class="btn" data-ui="true" id="wpnBtn">WPN</button><button class="btn" data-ui="true" id="skillBtn">SKILL</button><button class="btn" data-ui="true" id="bombBtn">BOMB</button></div>
-<div id="msg"><h1>SKY VECTOR ASSAULT</h1><p>タップで開始 / 相対ドラッグで移動</p></div>
-<script src="main.js"></script></body></html>
+#ui{position:fixed;inset:0;color:#dff6ff;font-family:Inter,system-ui,sans-serif;pointer-events:none}
+.layer{position:absolute;inset:0;display:none;align-items:center;justify-content:center}.layer.show{display:flex}
+.card{background:linear-gradient(180deg,#0d2346cc,#06142bcc);border:1px solid #56d8ff;border-radius:14px;padding:16px;box-shadow:0 0 20px #2bc3ff44}
+.btn{pointer-events:auto;border:1px solid #87e7ff;background:linear-gradient(180deg,#14456d,#0b243f);color:#fff;border-radius:12px;padding:10px 14px;font-weight:700;margin:6px}
+#hud{display:none;position:absolute;inset:0;padding:8px 10px;pointer-events:none}#hud.show{display:block}
+.row{display:flex;gap:8px;justify-content:space-between}.panel{background:#06162db8;border:1px solid #4fceff;border-radius:10px;padding:6px 8px;font-size:12px}
+#controls{position:absolute;right:8px;bottom:calc(env(safe-area-inset-bottom) + 8px);display:flex;gap:8px;pointer-events:auto}.fab{width:76px;height:76px;border-radius:16px}
+</style></head><body><canvas id="game"></canvas><div id="ui">
+<div id="title" class="layer show"><div class="card"><h1>AEGIS SKYDRIVE</h1><p>Premium Vertical Bullet Hell</p><button class="btn" id="toMenu">Tap to Start</button></div></div>
+<div id="menu" class="layer"><div class="card"><h2>Main Menu</h2><button class="btn" id="startBtn">Start Mission</button><button class="btn" id="hangarBtn">Hangar</button><button class="btn" id="stageBtn">Stage Select</button><button class="btn" id="settingBtn">Settings</button><button class="btn" id="tutorialBtn">How To Play</button></div></div>
+<div id="hangar" class="layer"><div class="card"><h2>Hangar</h2><div id="shipList"></div><button class="btn" id="hangarBack">Back</button></div></div>
+<div id="stages" class="layer"><div class="card"><h2>Stage Select</h2><div id="stageList"></div><button class="btn" id="stageBack">Back</button></div></div>
+<div id="settings" class="layer"><div class="card"><h2>Settings</h2><label>Drag Sensitivity <input id="sens" type="range" min="1" max="1.25" step="0.01"></label><br><label>Screen Shake <input id="shake" type="checkbox"></label><br><label>Hit Flash <input id="flash" type="checkbox"></label><br><button class="btn" id="settingsBack">Back</button></div></div>
+<div id="tutorial" class="layer"><div class="card"><h2>How To Play</h2><p>相対ドラッグで移動 / 自動射撃 / WPN切替 / SKILL / BOMB</p><button class="btn" id="tutorialBack">Back</button></div></div>
+<div id="result" class="layer"><div class="card"><h2>Result</h2><p id="resultText"></p><button class="btn" id="resultMenu">Menu</button></div></div>
+<div id="hud"><div class="row"><div class="panel">SCORE <span id="score">0</span></div><div class="panel">STAGE <span id="stageNo">1</span></div><div class="panel">SHIP <span id="shipName">-</span></div><div class="panel">WPN <span id="wpn">-</span></div><div class="panel">LIFE <span id="life">3</span></div></div><div class="row"><div class="panel" style="flex:1">HP <span id="hp">100</span> / SH <span id="shield">60</span> / SK <span id="skill">0</span>% / BOMB <span id="bomb">3</span></div><button class="btn" id="pauseBtn" style="pointer-events:auto">PAUSE</button></div><div id="controls"><button class="btn fab" id="wpnBtn">WPN</button><button class="btn fab" id="skillBtn">SKILL</button><button class="btn fab" id="bombBtn">BOMB</button></div></div>
+</div><script src="main.js"></script></body></html>

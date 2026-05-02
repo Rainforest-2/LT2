@@ -1,26 +1,29 @@
 # DESIGN
 
-## 入力設計
-- 相対ドラッグ方式（仮想スティック禁止）
-- Input.activePointerId/startX/startY/startPlayerX/startPlayerY/sensitivity/dragging
-- pointerup/cancelで必ず停止
+## Scene設計
+- title -> menu -> (hangar/stageSelect/settings/tutorial) -> gameplay -> result
+- gameplay中 pause可能
 
-## ゲーム状態
-- mode: ready/running/warning/clear/gameover
-- stage進行、4面ごとボス
+## Input設計
+- 相対ドラッグ
+- pointerdown時に開始座標 + 自機座標を保存
+- pointermoveでdelta*sensitivityを直接反映
+- pointerup/cancelで停止
 
-## 描画設計
-- Canvas2Dのみ
-- 多層背景（色調切替）
-- 自機/敵/弾をglow付きで描画
-- flash/shake/warning演出
+## Rendering設計
+- Canvas2D + 多層背景 + glow弾
+- stageごとのパレット
+- warning / boss / hit feedback
 
-## 弾幕設計
-- 道中: 編隊＋色分け弾
-- ボスphase1放射、phase2狙い撃ち、phase3交差高速
+## 機体/敵/ボス
+- 3機体、3武器
+- 敵6タイプ相当の挙動差
+- ボス4種名ローテ、3フェーズ弾幕
 
-## 安定化方針
+## 保存設計
+- localStorage: sensitivity, shake, flash
+
+## 安定化
 - requestAnimationFrame + delta time
-- loop内try/catch
-- resizeでDPR対応
-- __LT2_BOOT_OK__フラグ維持
+- try/catch loop
+- DPR対応resize
