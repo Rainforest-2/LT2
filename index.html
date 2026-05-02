@@ -1,52 +1,16 @@
-<!doctype html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
-  <title>Lightning Sky Assault</title>
-  <style>
-    html,body{margin:0;height:100%;overflow:hidden;background:#02040c;font-family:-apple-system,BlinkMacSystemFont,sans-serif;touch-action:none}
-    #game{display:block;width:100vw;height:100vh}
-    #hud{position:fixed;inset:0;pointer-events:none;color:#d8f8ff;padding:calc(env(safe-area-inset-top) + 8px) 10px calc(env(safe-area-inset-bottom) + 8px)}
-    #top{display:flex;justify-content:space-between;gap:6px;font-weight:700;font-size:13px}
-    .card{background:rgba(8,20,48,.45);border:1px solid #52caff;border-radius:8px;padding:6px 8px;min-width:72px}
-    #hp,#shield,#boss{width:140px;height:8px;background:#122;border:1px solid #8df;border-radius:6px;overflow:hidden}
-    #hp>i{display:block;height:100%;background:linear-gradient(90deg,#7f7,#ff7)}
-    #shield>i{display:block;height:100%;background:linear-gradient(90deg,#8ef,#55f)}
-    #boss>i{display:block;height:100%;background:linear-gradient(90deg,#f66,#f0f)}
-    #bottom{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 10px);left:10px;right:10px;display:flex;justify-content:space-between;align-items:flex-end}
-    #controls{pointer-events:auto;display:flex;gap:8px}
-    .btn{width:72px;height:72px;border-radius:50%;border:1px solid #8ef;background:rgba(0,60,90,.45);color:#fff;font-weight:800}
-    #msg{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;color:#fff;text-shadow:0 0 8px #000;pointer-events:none}
-  </style>
-</head>
-<body>
+<!doctype html><html lang="ja"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no"/><title>Sky Vector Assault</title><style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#02040c;overscroll-behavior:none}*{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;box-sizing:border-box}
+#game{display:block;width:100vw;height:100vh;touch-action:none}
+#hud{position:fixed;inset:0;pointer-events:none;color:#d9f4ff;font-family:-apple-system,sans-serif;padding:calc(env(safe-area-inset-top) + 8px) 10px calc(env(safe-area-inset-bottom)+8px)}
+.row{display:flex;gap:8px;align-items:center;justify-content:space-between}.panel{background:linear-gradient(180deg,rgba(9,27,59,.55),rgba(3,11,26,.45));border:1px solid #53d5ff;box-shadow:0 0 12px #35c9ff44 inset;border-radius:10px;padding:7px 9px;font-size:12px}
+#bars{margin-top:8px;display:grid;grid-template-columns:24px 1fr 24px 1fr 46px 1fr;gap:6px;align-items:center}.bar{height:9px;border:1px solid #8df;background:#012;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%}
+#hp i{background:linear-gradient(90deg,#65ff88,#f7ff68)}#sh i{background:linear-gradient(90deg,#44c5ff,#6677ff)}#sk i{background:linear-gradient(90deg,#ff6ef8,#ffa36e)}#boss i{background:linear-gradient(90deg,#ff6767,#ff31d7)}
+#controls{position:fixed;right:10px;bottom:calc(env(safe-area-inset-bottom) + 10px);display:flex;gap:8px;pointer-events:auto}.btn{width:78px;height:78px;border-radius:18px;border:1px solid #8ef;background:linear-gradient(180deg,#13405f,#0a2135);color:#fff;font-weight:800}
+#msg{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);color:#fff;text-align:center;text-shadow:0 2px 12px #000;pointer-events:none}
+</style></head><body>
 <canvas id="game"></canvas>
-<div id="hud">
-  <div id="top">
-    <div class="card">SCORE <span id="score">0</span></div>
-    <div class="card">STAGE <span id="stage">1</span></div>
-    <div class="card">MULTI <span id="multi">x1</span></div>
-    <div class="card">LIFE <span id="life">3</span></div>
-    <div class="card">BOMB <span id="bomb">3</span></div><div class="card">DIFF <span id="diff">EASY</span></div>
-  </div>
-  <div style="margin-top:6px;display:flex;gap:8px;align-items:center">
-    <span>HP</span><div id="hp"><i></i></div>
-    <span>SH</span><div id="shield"><i></i></div>
-    <span id="bossLabel" style="display:none">BOSS</span><div id="boss" style="display:none"><i></i></div>
-  </div>
-  <div id="bottom">
-    <div class="card">左: 移動 / 右: ショット</div>
-    <div id="controls">
-      <button id="weaponBtn" class="btn">WPN</button>
-      <button id="skillBtn" class="btn">SKILL</button>
-      <button id="bombBtn" class="btn">BOMB</button>
-    </div>
-  </div>
-</div>
-<div id="msg"><h1>LIGHTNING SKY ASSAULT</h1><p>タップでミッション開始</p></div>
-<div id="bootError" style="display:none;position:fixed;inset:auto 12px 12px 12px;background:#400;color:#fff;padding:10px;border:1px solid #f88;border-radius:8px">JavaScript読み込みに失敗しました。main.jsの競合マーカー(<<<<<<<)を確認してください。</div>
-<script src="main.js"></script>
-<script>setTimeout(()=>{if(!window.__LT2_BOOT_OK__){document.getElementById("bootError").style.display="block";}},1200);</script>
-</body>
-</html>
+<div id="hud"><div class="row"><div class="panel">SCORE <span id="score">0</span></div><div class="panel">STAGE <span id="stage">1</span></div><div class="panel">SHIP <span id="ship">CRIMSON</span></div><div class="panel">WPN <span id="wpn">VULCAN</span></div><div class="panel">LIFE <span id="life">3</span></div><div class="panel">BOMB <span id="bomb">3</span></div></div>
+<div id="bars"><span>HP</span><div id="hp" class="bar"><i></i></div><span>SH</span><div id="sh" class="bar"><i></i></div><span>SK</span><div id="sk" class="bar"><i></i></div><span id="bossTxt" style="display:none">BOSS</span><div id="boss" class="bar" style="display:none"><i></i></div></div></div>
+<div id="controls"><button class="btn" data-ui="true" id="wpnBtn">WPN</button><button class="btn" data-ui="true" id="skillBtn">SKILL</button><button class="btn" data-ui="true" id="bombBtn">BOMB</button></div>
+<div id="msg"><h1>SKY VECTOR ASSAULT</h1><p>タップで開始 / 相対ドラッグで移動</p></div>
+<script src="main.js"></script></body></html>

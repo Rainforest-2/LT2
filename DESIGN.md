@@ -1,22 +1,26 @@
-# Lightning Sky Assault 開発計画（プロレベル実装方針）
+# DESIGN
 
-## 1. 体験目標
-- 90秒で「気持ちいい」手応えが出る。
-- iPadの親指操作で、移動/射撃/ボム/武器切替が誤操作なく動く。
-- LT2系の魅力（弾幕密度、複数武器、ボス戦）を短いサイクルで体感できる。
+## 入力設計
+- 相対ドラッグ方式（仮想スティック禁止）
+- Input.activePointerId/startX/startY/startPlayerX/startPlayerY/sensitivity/dragging
+- pointerup/cancelで必ず停止
 
-## 2. 操作要件
-- 1タップで確実にゲーム開始（全画面どこでも）。
-- 開始前UI操作で例外が発生しない（Null防止）。
-- 入力喪失時（pointercancel）も状態復帰。
+## ゲーム状態
+- mode: ready/running/warning/clear/gameover
+- stage進行、4面ごとボス
 
-## 3. 技術要件
-- 例外でゲームループが停止しないよう防御コードを配置。
-- 描画失敗時は最小限のフェイルセーフ表示。
-- ステート遷移: `boot -> ready -> running -> gameover`。
+## 描画設計
+- Canvas2Dのみ
+- 多層背景（色調切替）
+- 自機/敵/弾をglow付きで描画
+- flash/shake/warning演出
 
-## 4. 今回の実装反映
-- 全画面pointerdownで開始処理をフック。
-- 未開始時のWPN/BOMB操作を安全化。
-- requestAnimationFrameループを常駐化して、ready表示を安定化。
-- 主要イベントを `safe()` ラッパー経由で実行。
+## 弾幕設計
+- 道中: 編隊＋色分け弾
+- ボスphase1放射、phase2狙い撃ち、phase3交差高速
+
+## 安定化方針
+- requestAnimationFrame + delta time
+- loop内try/catch
+- resizeでDPR対応
+- __LT2_BOOT_OK__フラグ維持
