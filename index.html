@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <title>Lightning Sky Assault</title>
+  <style>
+    html,body{margin:0;height:100%;overflow:hidden;background:#02040c;font-family:-apple-system,BlinkMacSystemFont,sans-serif;touch-action:none}
+    #game{display:block;width:100vw;height:100vh}
+    #hud{position:fixed;inset:0;pointer-events:none;color:#d8f8ff;padding:calc(env(safe-area-inset-top) + 8px) 10px calc(env(safe-area-inset-bottom) + 8px)}
+    #top{display:flex;justify-content:space-between;gap:6px;font-weight:700;font-size:13px}
+    .card{background:rgba(8,20,48,.45);border:1px solid #52caff;border-radius:8px;padding:6px 8px;min-width:72px}
+    #hp,#shield,#boss{width:140px;height:8px;background:#122;border:1px solid #8df;border-radius:6px;overflow:hidden}
+    #hp>i{display:block;height:100%;background:linear-gradient(90deg,#7f7,#ff7)}
+    #shield>i{display:block;height:100%;background:linear-gradient(90deg,#8ef,#55f)}
+    #boss>i{display:block;height:100%;background:linear-gradient(90deg,#f66,#f0f)}
+    #bottom{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 10px);left:10px;right:10px;display:flex;justify-content:space-between;align-items:flex-end}
+    #controls{pointer-events:auto;display:flex;gap:8px}
+    .btn{width:72px;height:72px;border-radius:50%;border:1px solid #8ef;background:rgba(0,60,90,.45);color:#fff;font-weight:800}
+    #msg{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;color:#fff;text-shadow:0 0 8px #000;pointer-events:none}
+  </style>
+</head>
+<body>
+<canvas id="game"></canvas>
+<div id="hud">
+  <div id="top">
+    <div class="card">SCORE <span id="score">0</span></div>
+    <div class="card">STAGE <span id="stage">1</span></div>
+    <div class="card">MULTI <span id="multi">x1</span></div>
+    <div class="card">LIFE <span id="life">3</span></div>
+    <div class="card">BOMB <span id="bomb">3</span></div>
+  </div>
+  <div style="margin-top:6px;display:flex;gap:8px;align-items:center">
+    <span>HP</span><div id="hp"><i></i></div>
+    <span>SH</span><div id="shield"><i></i></div>
+    <span id="bossLabel" style="display:none">BOSS</span><div id="boss" style="display:none"><i></i></div>
+  </div>
+  <div id="bottom">
+    <div class="card">左: 移動 / 右: ショット</div>
+    <div id="controls">
+      <button id="weaponBtn" class="btn">WPN</button>
+      <button id="bombBtn" class="btn">BOMB</button>
+    </div>
+  </div>
+</div>
+<div id="msg"><h1>LIGHTNING SKY ASSAULT</h1><p>タップでミッション開始</p></div>
+<script src="main.js"></script>
+</body>
+</html>
