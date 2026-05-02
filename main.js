@@ -1,3 +1,4 @@
+window.__LT2_BOOT_OK__=true;
 const c=document.getElementById('game'),x=c.getContext('2d');
 const $=s=>document.querySelector(s);
 const ui={score:$('#score'),stage:$('#stage'),multi:$('#multi'),life:$('#life'),bomb:$('#bomb'),hp:$('#hp i'),shield:$('#shield i'),boss:$('#boss i'),bossWrap:$('#boss'),bossLabel:$('#bossLabel'),msg:$('#msg')};
