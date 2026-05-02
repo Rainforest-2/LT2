@@ -44,6 +44,8 @@
   </div>
 </div>
 <div id="msg"><h1>LIGHTNING SKY ASSAULT</h1><p>タップでミッション開始</p></div>
+<div id="bootError" style="display:none;position:fixed;inset:auto 12px 12px 12px;background:#400;color:#fff;padding:10px;border:1px solid #f88;border-radius:8px">JavaScript読み込みに失敗しました。main.jsの競合マーカー(<<<<<<<)を確認してください。</div>
 <script src="main.js"></script>
+<script>setTimeout(()=>{if(!window.__LT2_BOOT_OK__){document.getElementById("bootError").style.display="block";}},1200);</script>
 </body>
 </html>
