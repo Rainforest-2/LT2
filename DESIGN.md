@@ -1,29 +1,24 @@
 # DESIGN
 
 ## Scene設計
-- title -> menu -> (hangar/stageSelect/settings/tutorial) -> gameplay -> result
-- gameplay中 pause可能
+boot -> title -> mainMenu -> (hangar/settings/how/credits) -> gameplay -> result/gameOver
 
 ## Input設計
-- 相対ドラッグ
-- pointerdown時に開始座標 + 自機座標を保存
-- pointermoveでdelta*sensitivityを直接反映
+- 相対ドラッグ方式
+- pointerdownでstart finger/player位置保存
+- pointermoveで delta*sensitivity を player に直適用
 - pointerup/cancelで停止
 
-## Rendering設計
-- Canvas2D + 多層背景 + glow弾
-- stageごとのパレット
-- warning / boss / hit feedback
+## UI設計
+- styles.cssへ分離
+- ガラス風パネル + ネオン線
+- gameplay中HUDと右下操作UI
 
-## 機体/敵/ボス
-- 3機体、3武器
-- 敵6タイプ相当の挙動差
-- ボス4種名ローテ、3フェーズ弾幕
+## Rendering
+- Canvas2D
+- 敵6タイプは形状分離（丸/楕円禁止）
+- ボス2種名ローテ + 3フェーズ
+- warning演出、glow弾
 
-## 保存設計
-- localStorage: sensitivity, shake, flash
-
-## 安定化
-- requestAnimationFrame + delta time
-- try/catch loop
-- DPR対応resize
+## 保存
+- localStorage: difficulty/sensitivity/shake/flash/hitbox/quality/volume

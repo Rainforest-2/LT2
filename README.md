@@ -1,38 +1,31 @@
 # AEGIS SKYDRIVE
 
-GitHub Pagesで動く、iPad Safari最適化の縦スクロール弾幕STG。
-
 ## 概要
-- タイトル/メニュー/ハンガー/ステージ選択/設定/チュートリアル/リザルトを実装
-- 相対ドラッグ操作 + 自動射撃
-- 3機体、3武器、SKILL、BOMB、ボスフェーズ
+GitHub Pagesで動作する、iPad Safari向け縦スクロールSTG。
+
+## 重要修正
+- タイトルでタップしても進まない問題を修正（pointerdown/touchstart/clickの複線化）
+- Scene管理を `boot/title/mainMenu/hangar/settings/gameplay/pause/result/gameOver` で整理
 
 ## 操作
-- 画面ドラッグ: 相対移動（指を止めると機体停止）
+- gameplay中: 相対ドラッグ移動
 - WPN: 武器切替
-- SKILL: ゲージ満タンで発動
-- BOMB: 弾消し＋全体ダメージ
-- PAUSE: 一時停止
+- SKILL: ゲージ満タン発動
+- BOMB: 弾消去＋全体ダメージ
 
 ## メニュー
-- Start Mission
-- Hangar
-- Stage Select
-- Settings（感度/Shake/Flash保存）
-- How to Play
-
-## ステージ
-- Stage 1-6テーマ色切替、4面ごとボス
+- START MISSION
+- HANGAR
+- SETTINGS
+- HOW TO PLAY
+- CREDITS
 
 ## 公開
 1. push
-2. GitHub Settings > Pages
-3. branch rootを公開
+2. GitHub Pages設定でbranch root公開
 
-## 競合チェック
+## チェック
 ```bash
 ./tools_check_conflicts.sh
+node --check main.js
 ```
-
-## 備考
-- 画像生成は未使用。Canvas procedural描画で代替。
